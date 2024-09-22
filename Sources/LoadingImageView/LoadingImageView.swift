@@ -6,6 +6,10 @@ import SwiftUI
 struct LoadingImageView: View {
     @State var counter: Int = 0
     @State var origin: CGPoint = .zero
+    var size: CGSize = CGSize(width: 300, height: 300)
+    var center: CGPoint {
+        CGPoint(x: size.width / 2, y: size.height / 2)
+    }
 
     var body: some View {
         VStack {
@@ -14,7 +18,14 @@ struct LoadingImageView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
-                .modifier(RippleEffect(at: origin, trigger: counter))
+                .modifier(RippleEffect(at: center, trigger: counter))
+                .frame(width: size.width, height: size.height)
+                .onAppear {
+                    // タイマーで一定間隔ごとに波を発生させる
+                    Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
+                        counter += 1
+                    }
+                }
                 .onPressingChanged { point in
                     if let point {
                         origin = point
@@ -23,7 +34,6 @@ struct LoadingImageView: View {
                 }
             Spacer()
         }
-        .padding()
     }
 }
 
@@ -39,8 +49,8 @@ struct PushEffect<T: Equatable>: ViewModifier {
                 view.scaleEffect(value)
             }
         } keyframes: { _ in
-            SpringKeyframe(0.95, duration: 0.2, spring: .snappy)
-            SpringKeyframe(1.0, duration: 0.2, spring: .bouncy)
+            SpringKeyframe(0.95, duration: 0.4, spring: .snappy)
+            SpringKeyframe(1.0, duration: 0.4, spring: .bouncy)
         }
     }
 }
@@ -87,10 +97,10 @@ struct RippleModifier: ViewModifier {
 
     var duration: TimeInterval
 
-    var amplitude: Double = 12
+    var amplitude: Double = 6
     var frequency: Double = 15
-    var decay: Double = 8
-    var speed: Double = 1200
+    var decay: Double = 3
+    var speed: Double = 400
     
     private var shaderFunction: ShaderFunction {
         ShaderFunction(library: .bundle(.module),
@@ -117,7 +127,7 @@ struct RippleModifier: ViewModifier {
             view.layerEffect(
                 shader,
                 maxSampleOffset: maxSampleOffset,
-                isEnabled: 0 < elapsedTime && elapsedTime < duration
+                isEnabled: true//0 < elapsedTime && elapsedTime < duration
             )
         }
     }
