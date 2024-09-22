@@ -1,15 +1,23 @@
 import SwiftUI
 
 public struct LoadingImageView: View {
-    @State var counter: Int = 0
-    @State var origin: CGPoint = .zero
-    var size: CGSize = CGSize(width: 300, height: 300)
+    let image: Image
+
+    var size: CGSize
     var center: CGPoint {
         CGPoint(x: size.width / 2, y: size.height / 2)
     }
+
+    @State var counter: Int = 0
+    @State var origin: CGPoint = .zero
+
     @State private var timer: Timer?
     @State var isAutoRepeat: Bool = false
-    let image: Image
+    
+    public init(image: Image, size: CGSize = CGSize(width: 300, height: 300)) {
+        self.image = image
+        self.size = size
+    }
 
     public var body: some View {
         VStack {
