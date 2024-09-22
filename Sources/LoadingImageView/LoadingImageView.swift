@@ -12,11 +12,12 @@ struct LoadingImageView: View {
     }
     @State private var timer: Timer?
     @State var isAutoRepeat: Bool = false
+    let image: Image
 
     var body: some View {
         VStack {
             Spacer()
-            Image("default", bundle: .module)
+            image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
@@ -116,7 +117,7 @@ struct RippleModifier: ViewModifier {
 
     var amplitude: Double = 6
     var frequency: Double = 15
-    var decay: Double = 3
+    var decay: Double = 2
     var speed: Double = 200
     
     private var shaderFunction: ShaderFunction {
@@ -228,6 +229,6 @@ struct SpatialPressingGesture: UIGestureRecognizerRepresentable {
 
 
 #Preview {
-    LoadingImageView()
+    LoadingImageView(image: Image("default", bundle: .module))
 }
 
