@@ -1,10 +1,3 @@
-//
-//  Ripple.metal
-//  LoadingImageView
-//
-//  Created by bsakai on 2024/09/21.
-//
-
 #include <metal_stdlib>
 #include <SwiftUI/SwiftUI.h>
 using namespace metal;

@@ -1,10 +1,3 @@
-//
-//  RippleParameterConfirmView.swift
-//  LoadingImageView
-//
-//  Created by bsakai on 2024/09/20.
-//
-
 import SwiftUI
 
 struct ConfirmView: View {
