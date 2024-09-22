@@ -10,6 +10,8 @@ struct LoadingImageView: View {
     var center: CGPoint {
         CGPoint(x: size.width / 2, y: size.height / 2)
     }
+    @State private var timer: Timer?
+    @State var isAutoRepeat: Bool = false
 
     var body: some View {
         VStack {
@@ -18,18 +20,33 @@ struct LoadingImageView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .clipShape(RoundedRectangle(cornerRadius: 24))
-                .modifier(RippleEffect(at: center, trigger: counter))
+                .modifier(RippleEffect(at: origin, trigger: counter))
                 .frame(width: size.width, height: size.height)
                 .onAppear {
-                    // タイマーで一定間隔ごとに波を発生させる
-                    Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
-                        counter += 1
+                    isAutoRepeat = true
+                }
+                .onChange(of: isAutoRepeat) {
+                    if isAutoRepeat {
+                        // タイマーで一定間隔ごとに波を発生させる
+                        timer?.invalidate() // 既存のタイマーを無効化
+                        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+                            origin = center
+                            counter += 1
+                        }
+                    } else {
+                        timer?.invalidate() // タイマーを停止
+                        timer = nil
                     }
                 }
                 .onPressingChanged { point in
                     if let point {
                         origin = point
                         counter += 1
+                        isAutoRepeat = false
+                        // turn auto repeat true after 1 second later
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            isAutoRepeat = true
+                        }
                     }
                 }
             Spacer()
@@ -100,7 +117,7 @@ struct RippleModifier: ViewModifier {
     var amplitude: Double = 6
     var frequency: Double = 15
     var decay: Double = 3
-    var speed: Double = 400
+    var speed: Double = 200
     
     private var shaderFunction: ShaderFunction {
         ShaderFunction(library: .bundle(.module),
