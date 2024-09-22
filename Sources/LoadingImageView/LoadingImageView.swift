@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoadingImageView: View {
+public struct LoadingImageView: View {
     @State var counter: Int = 0
     @State var origin: CGPoint = .zero
     var size: CGSize = CGSize(width: 300, height: 300)
@@ -11,7 +11,7 @@ struct LoadingImageView: View {
     @State var isAutoRepeat: Bool = false
     let image: Image
 
-    var body: some View {
+    public var body: some View {
         VStack {
             Spacer()
             image
