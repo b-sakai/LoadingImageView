@@ -11,9 +11,6 @@ public struct LoadingImageView: View {
     @State var counter: Int = 0
     @State var origin: CGPoint = .zero
 
-    @State private var timer: Timer?
-    @State var isAutoRepeat: Bool = false
-    
     public init(image: Image, size: CGSize = CGSize(width: 300, height: 300)) {
         self.image = image
         self.size = size
@@ -29,30 +26,13 @@ public struct LoadingImageView: View {
                 .modifier(RippleEffect(at: origin, trigger: counter))
                 .frame(width: size.width, height: size.height)
                 .onAppear {
-                    isAutoRepeat = true
-                }
-                .onChange(of: isAutoRepeat) {
-                    if isAutoRepeat {
-                        // タイマーで一定間隔ごとに波を発生させる
-                        timer?.invalidate() // 既存のタイマーを無効化
-                        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
-                            origin = center
-                            counter += 1
-                        }
-                    } else {
-                        timer?.invalidate() // タイマーを停止
-                        timer = nil
-                    }
+                    origin = center
+                    counter += 1
                 }
                 .onPressingChanged { point in
                     if let point {
                         origin = point
                         counter += 1
-                        isAutoRepeat = false
-                        // turn auto repeat true after 1 second later
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            isAutoRepeat = true
-                        }
                     }
                 }
             Spacer()
@@ -95,7 +75,7 @@ struct RippleEffect<T: Equatable>: ViewModifier {
         let duration = duration
 
         content.keyframeAnimator(
-            initialValue: 0,
+            initialValue: 10,
             trigger: trigger
         ) { view, elapsedTime in
             view.modifier(RippleModifier(
@@ -104,12 +84,12 @@ struct RippleEffect<T: Equatable>: ViewModifier {
                 duration: duration
             ))
         } keyframes: { _ in
-            MoveKeyframe(0)
+            MoveKeyframe(10)
             LinearKeyframe(duration, duration: duration)
         }
     }
 
-    var duration: TimeInterval { 3 }
+    var duration: TimeInterval { 100 }
 }
 
 /// A modifier that applies a ripple effect to its content.
@@ -122,7 +102,7 @@ struct RippleModifier: ViewModifier {
 
     var amplitude: Double = 6
     var frequency: Double = 15
-    var decay: Double = 2
+    var decay: Double = 0
     var speed: Double = 200
     
     private var shaderFunction: ShaderFunction {
