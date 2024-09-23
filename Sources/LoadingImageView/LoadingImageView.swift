@@ -138,14 +138,12 @@ struct RippleModifier: ViewModifier {
         )
 
         let maxSampleOffset = maxSampleOffset
-        let elapsedTime = elapsedTime
-        let duration = duration
 
         content.visualEffect { view, _ in
             view.layerEffect(
                 shader,
                 maxSampleOffset: maxSampleOffset,
-                isEnabled: true//0 < elapsedTime && elapsedTime < duration
+                isEnabled: true
             )
         }
     }
