@@ -113,11 +113,11 @@ struct RippleModifier: ViewModifier {
         0.03 * min(size.width, size.height)
     }
     var frequency: Double {
-        15
+        10
     }
     var decay: Double = 0.01
     var speed: Double {
-        min(size.width, size.height)
+        0.5 * min(size.width, size.height)
     }
     
     private var shaderFunction: ShaderFunction {
