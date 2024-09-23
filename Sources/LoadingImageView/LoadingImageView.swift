@@ -7,11 +7,14 @@ public struct LoadingImageView: View {
     var center: CGPoint {
         CGPoint(x: size.width / 2, y: size.height / 2)
     }
+    var cornerSize: CGFloat {
+        min(size.width, size.height) * 0.2
+    }
 
     @State var counter: Int = 0
     @State var origin: CGPoint = .zero
 
-    public init(image: Image, size: CGSize = CGSize(width: 300, height: 300)) {
+    public init(image: Image, size: CGSize = CGSize(width: 100, height: 100)) {
         self.image = image
         self.size = size
     }
@@ -22,8 +25,8 @@ public struct LoadingImageView: View {
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-                .modifier(RippleEffect(at: origin, trigger: counter))
+                .clipShape(RoundedRectangle(cornerRadius: cornerSize))
+                .modifier(RippleEffect(at: origin, trigger: counter, size: size))
                 .frame(width: size.width, height: size.height)
                 .onAppear {
                     origin = center
@@ -64,10 +67,13 @@ struct RippleEffect<T: Equatable>: ViewModifier {
     var origin: CGPoint
 
     var trigger: T
+    
+    var size: CGSize
 
-    init(at origin: CGPoint, trigger: T) {
+    init(at origin: CGPoint, trigger: T, size: CGSize) {
         self.origin = origin
         self.trigger = trigger
+        self.size = size
     }
 
     func body(content: Content) -> some View {
@@ -81,7 +87,8 @@ struct RippleEffect<T: Equatable>: ViewModifier {
             view.modifier(RippleModifier(
                 origin: origin,
                 elapsedTime: elapsedTime,
-                duration: duration
+                duration: duration,
+                size: size
             ))
         } keyframes: { _ in
             MoveKeyframe(10)
@@ -100,10 +107,18 @@ struct RippleModifier: ViewModifier {
 
     var duration: TimeInterval
 
-    var amplitude: Double = 6
-    var frequency: Double = 15
-    var decay: Double = 0
-    var speed: Double = 200
+    var size: CGSize
+
+    var amplitude: Double {
+        0.03 * min(size.width, size.height)
+    }
+    var frequency: Double {
+        15
+    }
+    var decay: Double = 0.01
+    var speed: Double {
+        min(size.width, size.height)
+    }
     
     private var shaderFunction: ShaderFunction {
         ShaderFunction(library: .bundle(.module),
@@ -214,6 +229,12 @@ struct SpatialPressingGesture: UIGestureRecognizerRepresentable {
 
 
 #Preview {
-    LoadingImageView(image: Image("default", bundle: .module))
+    VStack {
+        LoadingImageView(image: Image("default", bundle: .module))
+        LoadingImageView(image: Image("default", bundle: .module),
+                         size: CGSize(width: 200, height: 200))
+        LoadingImageView(image: Image("default", bundle: .module),
+                         size: CGSize(width: 300, height: 300))
+    }
 }
 
