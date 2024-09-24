@@ -44,12 +44,28 @@ See [documentation](https://developer.apple.com/documentation/swift_packages/add
 
 ## How to use
 
-You can just import `StringTransform` to use it.
+You can just import `LoadingImageView` to use it.
 
 ```swift
 import LoadingImageView
 
-// TODO: add explanation
+struct HogeView: View {
+    @State var isLoading: Bool = false
+    
+    var body: some View {
+        VStack {
+            Color.white
+        }
+        .overlay {
+            if isLoading {
+                LoadingImageView(image: Image("appIcon", bundle: .module))
+            }
+        }
+        .onAppear {
+            isLoading = true
+        }
+    }
+}
 ```
 
 ## Contribution
