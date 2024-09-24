@@ -1,7 +1,6 @@
 # LoadingImageView
 swift package of loading image view for SwiftUI
 
-[![CI](https://github.com/b-sakai/LoadingImageView/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/b-sakai/LoadingImageView/actions/workflows/main.yml)
 [![Release](https://img.shields.io/github/v/release/b-sakai/LoadingImageView)](https://github.com/b-sakai/LoadingImageView/releases/latest)
 [![Twitter](https://img.shields.io/twitter/follow/serotoninapp?style=social)](https://twitter.com/serotoninapp)
 
