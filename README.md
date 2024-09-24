@@ -4,8 +4,6 @@ swift package of loading image view for SwiftUI
 [![Release](https://img.shields.io/github/v/release/b-sakai/LoadingImageView)](https://github.com/b-sakai/LoadingImageView/releases/latest)
 [![Twitter](https://img.shields.io/twitter/follow/serotoninapp?style=social)](https://twitter.com/serotoninapp)
 
-Transform strings easily in Swift.
-
 ## Table of Contents
 
 - [Installation](#installation)
