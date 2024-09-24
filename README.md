@@ -25,7 +25,7 @@ You can add this package to `Package.swift`, include it in your target dependenc
 ```swift
 let package = Package(
     dependencies: [
-        .package(url: "https://github.com/b-sakai/LoadingImageView", .upToNextMajor(from: "0.1.0")),
+        .package(url: "https://github.com/b-sakai/LoadingImageView", .upToNextMajor(from: "0.1.5")),
     ],
     targets: [
         .target(
