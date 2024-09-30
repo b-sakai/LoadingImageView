@@ -57,7 +57,10 @@ struct HogeView: View {
         }
         .overlay {
             if isLoading {
-                LoadingImageView(image: Image("appIcon", bundle: .module))
+                LoadingImageView(
+                    image: Image("appIcon", bundle: .module),
+                    size: CGSize(width: 100, height: 100)
+                )
             }
         }
         .onAppear {
