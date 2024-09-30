@@ -1,6 +1,8 @@
 # LoadingImageView
 swift package of loading image view for SwiftUI
 
+![output](https://github.com/user-attachments/assets/44ae97aa-8a85-4f1c-860e-866f8178b92a)
+
 [![Release](https://img.shields.io/github/v/release/b-sakai/LoadingImageView)](https://github.com/b-sakai/LoadingImageView/releases/latest)
 [![Twitter](https://img.shields.io/twitter/follow/serotoninapp?style=social)](https://twitter.com/serotoninapp)
 
